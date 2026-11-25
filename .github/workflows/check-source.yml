@@ -3,18 +3,41 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'apps/collector/src/taiwanjobs.ts'
+      - 'apps/collector/**'
       - '.github/workflows/check-source.yml'
 permissions:
   contents: read
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 16
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: market_test
+          POSTGRES_USER: runner
+          POSTGRES_PASSWORD: local_integration_only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    env:
+      DATABASE_URL: postgresql://runner:local_integration_only@127.0.0.1:5432/market_test
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.4
-      - run: bun install --filter @job/collector --filter @job/domain
-      - run: bun run --cwd apps/collector probe
+      - run: bun install --frozen-lockfile
+      - run: bun run migrate
+      - run: bun run db:account
+      - run: bun run collect
+      - name: Verify observations, views and live dashboard data
+        run: |
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "SELECT count(*) AS active_jobs, count(DISTINCT payload->>'company') AS companies FROM current_jobs WHERE active"
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "SELECT payload->>'role' AS role, count(*) AS jobs FROM current_jobs WHERE active GROUP BY 1 ORDER BY 2 DESC"
+          bun -e "import {loadMarket,getMarketHistory} from './apps/web/lib/market'; const market=await loadMarket(); if(market.coverage.mode!=='database'||!market.jobs.length) throw Error('Expected live jobs after import'); const history=await getMarketHistory({role:null,skill:null,kind:null,period:null,location:null}); if(!history.points.some(p=>p.total>0)) throw Error('Missing observed history'); console.log('Live jobs:',market.jobs.length,'observed periods:',history.points.length); process.exit(0)"

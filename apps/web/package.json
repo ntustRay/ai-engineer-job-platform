@@ -10,7 +10,6 @@
     "@job/domain": "workspace:*",
     "better-auth": "1.7.18",
     "echarts": "6.1.0",
-    "lucide-react": "1.70.0",
     "mammoth": "1.10.0",
     "next": "16.4.5",
     "pdfjs-dist": "5.4.149",

@@ -1,0 +1,40 @@
+name: Verify platform
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install
+      - run: bun run typecheck
+      - run: bun run test
+      - run: bun run build
+      - name: Check public routes and release artifact
+        run: |
+          bun run --cwd apps/web start > /tmp/job-web.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" || true' EXIT
+          for attempt in {1..40}; do
+            if curl -fsS http://localhost:3000/ -o /tmp/jobs.html; then break; fi
+            sleep 1
+          done
+          grep -q '職域圖譜' /tmp/jobs.html
+          for path in research account resume; do curl -fsS "http://localhost:3000/$path" -o /dev/null; done
+      - name: Export dependency lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-lock
+          path: bun.lock
+          retention-days: 3

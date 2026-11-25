@@ -1,0 +1,20 @@
+name: Check TaiwanJobs source
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'apps/collector/src/taiwanjobs.ts'
+      - '.github/workflows/check-source.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --filter @job/collector --filter @job/domain
+      - run: bun run --cwd apps/collector probe

@@ -1,0 +1,60 @@
+{
+  "observedOn": "2026-11-26",
+  "provider": "勞動部勞動力發展署 台灣就業通",
+  "catalog": "https://data.gov.tw/dataset/44062",
+  "source": "https://apiservice.mol.gov.tw/OdService/download/A17000000J-030144-nkP",
+  "license": "政府資料開放授權條款第 1 版",
+  "licenseUrl": "https://data.gov.tw/license",
+  "records": [
+    {
+      "sourceId": "14724555",
+      "title": "Java/Kotlin全端工程師",
+      "company": "指南動力有限公司",
+      "location": "台北市松山區",
+      "description": "網頁/行動裝置應用系統維護與新增功能開發， 熟悉Java Spring Spring Boot， Kotlin， myBatis 或Hibernate等OR mapping技能， JavaScript，React/Angular或其他前台框架， PostgreSQL或其他RDB SQL， 駐點金融業，電信業，政府機關等大型機構相關業務系統維護與新增功能開發或維護。 *需有相關經驗*  駐點工作之餘也有機會接觸LLM， Agent-Based 相關應用或品質管理/AI治理研發。",
+      "url": "https://job.taiwanjobs.gov.tw/Internet/jobwanted/JobDetail.aspx?EMPLOYER_ID=497576&HIRE_ID=14724555",
+      "updatedAt": "2026-11-13",
+      "expiresAt": null
+    },
+    {
+      "sourceId": "14801017",
+      "title": "ETL數據工程師",
+      "company": "指南動力有限公司",
+      "location": "台北市南港區",
+      "description": "1. IFRS17 之需求訪談、分析、設計及維運。 2. 負責 Data Mart 與再保險資料庫管理、轉檔程式維護及轉檔作業執行，並配合排程待命支援。 3. 協助User 釐清總帳帳務問題並排除。 其他條件 具Data Mart 架構設計實務經驗，或至少3年以上數據相關開發經驗。 熟悉MS SQL Stored Procedure 、Smart Query及 ETL 工具(Trinity) 。 具金融保險業相關經驗尤佳。 大學畢業。",
+      "url": "https://job.taiwanjobs.gov.tw/Internet/jobwanted/JobDetail.aspx?EMPLOYER_ID=497576&HIRE_ID=14801017",
+      "updatedAt": "2026-11-23",
+      "expiresAt": null
+    },
+    {
+      "sourceId": "14764797",
+      "title": "專案經理(非管理職)－資安Team",
+      "company": "安源資訊股份有限公司",
+      "location": "台北市內湖區",
+      "description": "1. Infra系統需求分析、架構評估、專案執行與控管。 2. 規劃及執行企業內部資訊安全工作。",
+      "url": "https://job.taiwanjobs.gov.tw/Internet/jobwanted/JobDetail.aspx?EMPLOYER_ID=294727&HIRE_ID=14764797",
+      "updatedAt": "2026-10-27",
+      "expiresAt": "2026-12-26"
+    },
+    {
+      "sourceId": "14815963",
+      "title": "B600工程師．總經理辦公室資訊服務處",
+      "company": "三商電腦股份有限公司",
+      "location": "台北市信義區",
+      "description": "1、使用者電腦問題排除 2、網路設備規劃與維運(如F/W、L2、L3 Switch、無線AP等) 3、資訊設備規劃與維運(如AD、office365、備份等系統軟體) 4、資安設備規劃與維運(ISO27001) 5、資安設備規劃與維運(如資產軟體、防毒、IPS、GrayLog等) 6、雲端維運(如AWS等)",
+      "url": "https://job.taiwanjobs.gov.tw/Internet/jobwanted/JobDetail.aspx?EMPLOYER_ID=86369&HIRE_ID=14815963",
+      "updatedAt": "2026-11-19",
+      "expiresAt": null
+    },
+    {
+      "sourceId": "14652777",
+      "title": "資訊助理人員",
+      "company": "忕吉小吃股份有限公司",
+      "location": "台北市中正區",
+      "description": "1.菜單維護  2.廠商洽談合約續約事宜  3.主管交辦事項  次要工作:  1.提供解說或咨詢服務  2.行政事務處理能力  3.作業系統基本操作  4.網路系統安裝與配置  5.網路應用軟體操作  6.資訊設備環境設定  7.日常檢查及異常狀況初步研判",
+      "url": "https://job.taiwanjobs.gov.tw/Internet/jobwanted/JobDetail.aspx?EMPLOYER_ID=1201983&HIRE_ID=14652777",
+      "updatedAt": "2026-09-07",
+      "expiresAt": "2026-11-30"
+    }
+  ]
+}

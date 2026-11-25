@@ -1,0 +1,53 @@
+.rs-studio { max-width: 1240px; padding: 28px clamp(16px, 4vw, 54px) 64px; margin: 0 auto; color: #182a35; }
+.rs-intro { margin: 0 0 26px; }
+.rs-intro a, .rs-ai a { color: #315c66; text-underline-offset: 3px; }
+.rs-intro > a { font-size: .83rem; text-decoration: none; }
+.rs-intro h1 { margin: 17px 0 5px; font-size: clamp(1.9rem, 4.5vw, 3.1rem); line-height: 1.2; letter-spacing: -.035em; }
+.rs-intro p { margin: 0; color: #576875; line-height: 1.7; }
+.rs-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: clamp(14px, 2.8vw, 32px); }
+.rs-panel { border: 1px solid #d9dfd9; border-radius: 14px; background: #fff; padding: clamp(17px, 2.3vw, 30px); min-width: 0; }
+.rs-panel h2 { font-size: 1.22rem; line-height: 1.4; margin: 0 0 9px; }
+.rs-panel label { display: block; font-size: .9rem; font-weight: 650; margin: 18px 0 7px; }
+.rs-panel input, .rs-panel select, .rs-panel textarea { width: 100%; max-width: 100%; display: block; box-sizing: border-box; background: #fcfdfa; color: #182a35; font: inherit; font-size: .92rem; line-height: 1.55; border-radius: 7px; border: 1px solid #bac8c3; padding: 9px 11px; }
+.rs-panel textarea { resize: vertical; }
+.rs-panel :is(input, select, textarea, button, summary, a):focus-visible { outline: 3px solid #668b92; outline-offset: 2px; }
+.rs-label-row, .rs-preview-head, .rs-repos { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.rs-label-row { margin-top: 18px; margin-bottom: 7px; }
+.rs-label-row label, .rs-preview-head h2 { margin: 0; }
+.rs-panel .rs-file { cursor: pointer; position: relative; color: #315c66; padding: 3px 5px; }
+.rs-file:focus-within { outline: 2px solid #315c66; border-radius: 3px; }
+.rs-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; overflow: hidden; }
+.rs-file[aria-disabled=true] { opacity: .5; }
+.rs-panel button { cursor: pointer; border: 1px solid #bdcbc6; color: #315c66; background: #fff; border-radius: 7px; padding: 8px 13px; font: inherit; font-size: .88rem; font-weight: 650; line-height: 1.45; }
+.rs-panel button.rs-primary { background: #315c66; color: #fff; border-color: #315c66; }
+.rs-panel button:disabled { opacity: .5; cursor: not-allowed; }
+.rs-panel button:not(:disabled):hover { filter: brightness(.95); }
+.rs-secondary, .rs-ai .rs-primary { margin-top: 13px; }
+.rs-repos { justify-content: flex-start; margin-bottom: 7px; }
+.rs-repos select { flex: 1; min-width: 0; }
+.rs-note, .rs-status, .rs-warning, .rs-ai > p { font-size: .85rem; line-height: 1.65; }
+.rs-note { color: #576875; margin: 6px 0; }
+.rs-status, .rs-warning { border-left: 3px solid #47737b; background: #edf4f0; padding: 8px 11px; }
+.rs-warning { border-color: #ba5b36; background: #faf1ec; }
+.rs-ai { border-top: 1px solid #d9dfd9; margin-top: 23px; padding-top: 23px; }
+.rs-outgoing { margin-top: 12px; padding: 10px 12px; border-radius: 6px; border: 1px solid #d9dfd9; color: #374b57; overflow-wrap: anywhere; font-size: .86rem; }
+.rs-outgoing summary { cursor: pointer; font-weight: 650; }
+.rs-outgoing strong { display: block; margin-top: 12px; }
+.rs-outgoing p { white-space: pre-wrap; max-height: 200px; overflow-y: auto; margin: 5px 0; }
+.rs-sheet { border: 1px solid #d9dfd9; border-top: 3px solid #315c66; padding: 18px; margin-top: 22px; background: white; overflow-wrap: anywhere; }
+.rs-sheet h2 { font-size: 1.55rem; margin-bottom: 4px; }
+.rs-sheet h3 { font-size: 1rem; margin: 1.1em 0 .35em; break-after: avoid; color: #315c66; }
+.rs-sheet p { font-size: .92rem; margin: .3em 0; line-height: 1.6; white-space: pre-wrap; }
+.rs-contact-line { color: #435968; }
+.rs-sheet .rs-bullet { position: relative; padding-left: 1em; }
+.rs-sheet .rs-bullet::before { content: '•'; position: absolute; left: 0; }
+@media (max-width: 760px) { .rs-columns { grid-template-columns: minmax(0, 1fr); } .rs-studio { padding-inline: 16px; } }
+@media print {
+  @page { size: A4; margin: 16mm; }
+  body:has(.rs-studio) *:not(:has(.rs-sheet)):not(.rs-sheet):not(.rs-sheet *) { display: none !important; }
+  body:has(.rs-studio), body:has(.rs-studio) :has(.rs-sheet) { display: block !important; padding: 0 !important; margin: 0 !important; min-height: 0 !important; max-height: none !important; width: auto !important; max-width: none !important; border: none !important; background: white !important; box-shadow: none !important; overflow: visible !important; }
+  .rs-sheet { margin: 0; padding: 0; border: none; }
+  .rs-sheet h2 { font-size: 20pt; }
+  .rs-sheet h3 { font-size: 13pt; break-after: avoid-page; }
+  .rs-sheet p { font-size: 10.5pt; orphans: 2; widows: 2; }
+}

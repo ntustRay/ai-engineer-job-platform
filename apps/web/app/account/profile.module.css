@@ -1,0 +1,24 @@
+.page { width: min(1060px, calc(100% - 40px)); margin: 32px auto 64px; color: var(--ink, #182a35); }
+.page h1 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; margin: 24px 0; letter-spacing: -.055em; }
+.back, .textLink { color: var(--accent, #315c66); text-decoration: none; font-weight: 650; }
+.back { font-size: .9rem; }
+.grid { display: grid; grid-template-columns: 2fr 1fr; align-items: start; gap: 18px; }
+.panel { background: var(--surface, white); border: 1px solid var(--border, #d9dfd9); border-radius: 12px; padding: clamp(18px, 2vw, 28px); margin-bottom: 18px; }
+.panel header { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.panel h2 { margin: 0; font-size: 1.2rem; }
+.panel header span, .panel p, .repo small { color: var(--muted, #576875); }
+.panel header span { font-size: .85rem; }
+.panel p { margin: 12px 0 16px; line-height: 1.7; }
+.skills { display: flex; flex-wrap: wrap; gap: 8px; }
+.skills button, .action { padding: 8px 12px; font: inherit; font-size: .9rem; border: 1px solid var(--border, #d9dfd9); border-radius: 6px; background: var(--paper, #f8f9f6); color: var(--ink, #182a35); cursor: pointer; }
+.skills button[aria-pressed="true"], .action { background: var(--accent, #315c66); color: white; }
+.skills button:disabled, .action:disabled { opacity: .6; }
+.textLink { display: block; margin-top: 20px; }
+.counts { display: flex; gap: 18px; border-top: 1px solid var(--border, #d9dfd9); padding-top: 16px; margin-top: 18px; font-size: .9rem; }
+.repo { display: flex; align-items: baseline; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border, #d9dfd9); overflow-wrap: anywhere; cursor: pointer; }
+.repo input { accent-color: var(--accent, #315c66); }
+.repo b, .repo small { display: block; }
+.repo em { margin-left: auto; font-size: .8rem; }
+.repo + .action { margin-top: 14px; }
+.notice { background: #f7e9df; padding: 12px; border-radius: 8px; }
+@media (max-width: 720px) { .grid { grid-template-columns: 1fr; gap: 0; } .page { width: calc(100% - 24px); } }

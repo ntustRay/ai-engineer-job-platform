@@ -18,6 +18,8 @@ jobs:
         with:
           bun-version: 1.4.4
       - run: bun install
+      - name: Capture initial resolved dependency graph
+        run: python3 -c 'import gzip,base64; print("WORKSPACE_LOCK " + base64.b64encode(gzip.compress(open("bun.lock","rb").read())).decode())'
       - run: bun run typecheck
       - run: bun run test
       - run: bun run build

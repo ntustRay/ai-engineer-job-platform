@@ -1,7 +1,7 @@
 import type { Job, Requirement, RequirementKind, RoleId } from "./model";
 import { findSkills, type SkillHit } from "./skills";
 
-export const RULES_VERSION = "2026-11-26.1";
+export const RULES_VERSION = "2026-11-26.2";
 
 export function normalizeText(value: string): string {
   return value.normalize("NFKC")
@@ -29,9 +29,34 @@ const roles: [RoleId, RegExp][] = [
   ["software", /\b(?:software (?:developer|engineer)|web developer|programmer)\b|(?:軟體|軟件|程式|軟韌體)(?:開發|設計|工程)|程式設計師/i],
 ];
 
-export function classifyRole(title: string, _description?: string): RoleId {
+// Generic engineering titles can be refined by work performed. A tool name, team
+// name or hiring requirement alone says too little about the person's occupation.
+const technicalTitle = /(?:工程師|程式設計|開發人員|資訊人員|技術人員|\b(?:engineer|developer|programmer)\b)/i;
+const nonEngineeringTitle = /專案(?:經理|助理)|(?:行政|業務|行銷|採購|人資|客服)(?:人員|助理|代表|專員|經理)|(?:產品經理|業務工程師)|\b(?:sales engineer|account executive|project manager|product manager|marketing specialist|technical recruiter)\b/i;
+const qualificationOrCollaboration = /加分|尤佳|優先|熟悉|具備|相關經驗|團隊(?:合作|協作)|\b(?:experience with|familiar with|preferred|collaborate with)\b/i;
+const responsibilities: [RoleId, RegExp][] = [
+  ["frontend", /(?:開發|實作|維護|優化)(?:網站|網頁|產品|應用程式|既有|的|及|與|\s)*(?:前端(?:功能|介面|頁面|元件|組件)|響應式網頁)|(?:前端(?:頁面|元件|介面)?|前台頁面)(?:之|的|與|及|\s)*(?:開發|維護|實作)|\b(?:build|develop|implement|maintain)\s+(?:reusable\s+|responsive\s+)?(?:front[ -]?end components|web interfaces|react components)\b/i],
+  ["backend", /(?:開發|設計|實作|維護)(?:並|與|及|開發|設計|服務端|後端|系統|的|\s)*(?:後端服務|REST(?:ful)?\s*API|GraphQL\s*API)|(?:後端(?:服務|\s*API)?|後台API)(?:的|之|\s)*(?:設計|開發|維護)|\b(?:build|develop|maintain)\s+(?:backend services|server-side applications|rest(?:ful)? apis)\b/i],
+  ["devops", /(?:建置|建構|建立|設計|維護|優化)(?:及|與|維護|自動化|的|\s)*(?:CI\s*\/\s*CD\s*(?:流程|管線|pipeline)|自動化部署(?:流程|管線))|\b(?:build|maintain|implement)\s+(?:deployment pipelines|ci\/cd pipelines|infrastructure as code)\b/i],
+  ["qa", /(?:撰寫|設計|建置|開發)(?:並|及|與|執行|\s)*(?:自動化測試(?:腳本|案例|框架)|軟體測試(?:案例|計畫))|\b(?:design|develop|maintain)\s+(?:automated test suites|test automation frameworks)\b/i],
+  ["data", /(?:設計|開發|建置|維護)(?:及|與|開發|維護|\s)*(?:資料管線|數據管線|ETL\s*(?:流程|管線)|資料倉儲)|\b(?:build|maintain|develop)\s+(?:data pipelines|etl pipelines|data warehouses)\b/i],
+  ["ai", /(?:開發|實作|建置)(?:及|與|維護|\s)*(?:RAG\s*(?:檢索系統|系統|流程)|LLM\s*(?:推論服務|評估流程)|機器學習模型)|\b(?:train|fine-tune|deploy)\s+(?:language models|machine learning models)\b/i],
+];
+
+export function classifyRole(title: string, description = ""): RoleId {
   const text = normalizeText(title);
-  return roles.find(([, pattern]) => pattern.test(text))?.[0] ?? "other";
+  if (nonEngineeringTitle.test(text)) return "other";
+  const fromTitle = roles.find(([, pattern]) => pattern.test(text))?.[0];
+  if (fromTitle && fromTitle !== "software") return fromTitle;
+  if (!technicalTitle.test(text) && !fromTitle) return "other";
+
+  const duties = normalizeText(description).split(/[。；;!！?？,\n]|\.(?=\s)/)
+    .filter(clause => !qualificationOrCollaboration.test(clause));
+  const inferred = responsibilities.filter(([, pattern]) => duties.some(duty => pattern.test(duty)))
+    .map(([role]) => role);
+  if (inferred.length === 1) return inferred[0];
+  if (inferred.length === 2 && inferred.includes("frontend") && inferred.includes("backend")) return "fullstack";
+  return fromTitle ?? "other";
 }
 
 const preferred = /加分|尤佳|優先|更佳|為佳|者佳|佳者|額外優勢|\b(?:preferred|nice[\s-]to[\s-]have|bonus|a plus|desirable|is a plus)\b/i;
@@ -137,5 +162,5 @@ export function analyzeJob(title: string, description: string): Pick<Job, "role"
     }
     for (const clause of clauses(line)) record(clause, section);
   }
-  return { role: classifyRole(title), requirements: [...byGroup.values()] };
+  return { role: classifyRole(title, description), requirements: [...byGroup.values()] };
 }

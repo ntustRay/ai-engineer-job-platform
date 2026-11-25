@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import type { ChangeEvent } from 'react';
 import { formatSections, JOB_LIMIT, makeMaterials, MATERIAL_LIMIT, redactContacts } from './materials';
 import type { ResumeSection } from './materials';
+import ConfirmSkills from './ConfirmSkills';
 
 type JobContext = { title: string; company: string; description: string };
 type StudioProps = { accountStatus: 'authenticated' | 'anonymous' | 'unavailable'; missingJob: boolean; initialJob: JobContext | null };
@@ -174,6 +175,7 @@ export default function ResumeStudio({ accountStatus, initialJob, missingJob }: 
         {authenticated && nextPage !== null && <button disabled={pending} onClick={moreRepos}>載入更多專案</button>}
         {repoMessage && <p role="status" className="rs-note">{repoMessage}</p>}
         <textarea id="rs-projects" rows={4} value={projects} onChange={(e) => setProjects(e.target.value)} placeholder="貼上作品連結與 README 重點，再補上你實際負責的部分" />
+        <ConfirmSkills resume={resume} projects={projects} />
         <button className="rs-secondary" disabled={pending || !materials.length} onClick={manualDraft}>用素材建立草稿</button>
         <div className="rs-ai">
           <h2>針對職缺改寫</h2>

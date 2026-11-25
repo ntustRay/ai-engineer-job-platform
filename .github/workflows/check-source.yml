@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'apps/collector/**'
+      - 'packages/domain/src/**'
       - '.github/workflows/check-source.yml'
 permissions:
   contents: read

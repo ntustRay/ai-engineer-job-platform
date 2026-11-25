@@ -61,4 +61,18 @@ describe("job requirements", () => {
     expect(classifyRole("專案助理", "與 DevOps 團隊合作")).toBe("other");
     expect(classifyRole("Site Reliability Engineer")).toBe("devops");
   });
+
+  test("refines broad engineering titles with explicit duties in the imported job", () => {
+    expect(analyzeJob("軟體工程師", "主要負責網站前端開發與維護，建立共用元件。熟悉 TypeScript。").role).toBe("frontend");
+    expect(classifyRole("程式設計師", "開發前端元件；維護後端服務。")).toBe("fullstack");
+    expect(classifyRole("Senior Engineer", "Build data pipelines for business teams.")).toBe("data");
+    expect(classifyRole("後端工程師", "協助維護前端頁面。")).toBe("backend");
+  });
+
+  test("tools, optional qualifications and incidental IT duties do not establish specialization", () => {
+    expect(classifyRole("資訊服務處 B600 工程師", "排除使用者電腦問題，維護網路設備與雲端環境 (AWS)。")).toBe("other");
+    expect(classifyRole("軟體工程師", "熟悉 React、AWS。前端開發經驗尤佳。")).toBe("software");
+    expect(classifyRole("AI 產品行銷專員", "與工程團隊合作開發前端元件，熟悉 React。")).toBe("other");
+    expect(classifyRole("產品助理", "為部門發展軟體介紹，React 元件展示。")).toBe("other");
+  });
 });
